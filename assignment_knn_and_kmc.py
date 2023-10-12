@@ -77,3 +77,69 @@ y_F = y_test[ X_test['Gender'] == 'Female']
 pd.crosstab(y_F, y_hat_F)
 pd.crosstab(y_M, y_hat_M)
 #print("For men, about 80/102 == 0.784 are corret. For women, about 78/98 = 0.796" are correct. The model produces roughly the same accuracy for both sex in its approximation, with a difference in accuracy of 0.012.)
+
+#2.1
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+def createData(noise,N=50):
+    np.random.seed(100) # Set the seed for replicability
+    # Generate (x1,x2,g) triples:
+    X1 = np.array([np.random.normal(1,noise,N),np.random.normal(1,noise,N)])
+    X2 = np.array([np.random.normal(3,noise,N),np.random.normal(2,noise,N)])
+    X3 = np.array([np.random.normal(5,noise,N),np.random.normal(3,noise,N)])
+    # Concatenate into one data frame
+    gdf1 = pd.DataFrame({'x1':X1[0,:],'x2':X1[1,:],'group':'a'})
+    gdf2 = pd.DataFrame({'x1':X2[0,:],'x2':X2[1,:],'group':'b'})
+    gdf3 = pd.DataFrame({'x1':X3[0,:],'x2':X3[1,:],'group':'c'})
+    df = pd.concat([gdf1,gdf2,gdf3],axis=0)
+    return df
+
+df0_125 = createData(0.125)
+df0_25 = createData(0.25)
+df0_5 = createData(0.5)
+df1_0 = createData(1.0)
+df2_0 = createData(2.0)
+
+datasets = [df0_125, df0_25, df0_5, df1_0, df2_0]
+noise_levels = [0.125, 0.25, 0.5, 1.0, 2.0]
+
+#2.2
+#sns.scatterplot(data = df0_125, x = 'x1',y='x2',hue='group',style='group')
+#sns.scatterplot(data = df0_25, x = 'x1',y='x2',hue='group',style='group')
+#sns.scatterplot(data = df0_5, x = 'x1',y='x2',hue='group',style='group')
+#sns.scatterplot(data = df1_0, x = 'x1',y='x2',hue='group',style='group')
+#sns.scatterplot(data = df2_0, x = 'x1',y='x2',hue='group',style='group')
+#print('As the noise goes up, the clusters diffuse and therefore collide. This happens until noise reached a level of 2.0, in which it becomes more difficult to idenitfy the clusters, as their distinctness decreases.')
+
+#2.3
+def maxMin(x):
+  x = (x-min(x))/(max(x)-min(x))
+  return x
+
+def scree(data): 
+  X = data.loc[ : , ['x1','x2']]
+  X = X.apply(maxMin)
+  k_bar = 15
+  k_grid = np.arange(1,k_bar+1)
+  SSE = np.zeros(k_bar)
+  for k in range(k_bar):
+    model = KMeans(n_clusters = k + 1, max_iter = 300, n_init = 10, random_state = 0)
+    model = model.fit(X)
+    SSE[k] = model.inertia_
+  scree_plot, axes = plt.subplots()
+  sns.lineplot(x=k_grid, y=SSE).set_title('Scree Plot')
+  axes.set_ylim(0, 35)
+
+scree(data = df0_125)
+scree(data = df0_25)
+scree(data = df0_5)
+scree(df1_0)
+scree(df2_0)
+print('The existence of the elbow becomes less evident with the increasing of the noise')
+
+#2.4
+print("The scree plot approach is efficient for clusters that are separated and distinctive, as it produces a visible elbow. However, this approach would fail to be successful in cases where the clusters are not distinctive or apart from one another, as their lack of differentiation would lead to the spree chart's elbow to become unnoticeable and smooth. Accordingly, as the noise goes up, the clusters spread out, and the elbows become less distinct. Thus, The overlap between the groups therefore reuslt make it difficult to ifentify how many groups to pick or which points belong to what group.")
