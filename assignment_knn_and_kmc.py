@@ -78,7 +78,7 @@ pd.crosstab(y_F, y_hat_F)
 pd.crosstab(y_M, y_hat_M)
 #print("For men, about 80/102 == 0.784 are corret. For women, about 78/98 = 0.796" are correct. The model produces roughly the same accuracy for both sex in its approximation, with a difference in accuracy of 0.012.)
 
-#2.1
+#6.1
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -107,7 +107,7 @@ df2_0 = createData(2.0)
 datasets = [df0_125, df0_25, df0_5, df1_0, df2_0]
 noise_levels = [0.125, 0.25, 0.5, 1.0, 2.0]
 
-#2.2
+#6.2
 #sns.scatterplot(data = df0_125, x = 'x1',y='x2',hue='group',style='group')
 #sns.scatterplot(data = df0_25, x = 'x1',y='x2',hue='group',style='group')
 #sns.scatterplot(data = df0_5, x = 'x1',y='x2',hue='group',style='group')
@@ -115,7 +115,7 @@ noise_levels = [0.125, 0.25, 0.5, 1.0, 2.0]
 #sns.scatterplot(data = df2_0, x = 'x1',y='x2',hue='group',style='group')
 #print('As the noise goes up, the clusters diffuse and therefore collide. This happens until noise reached a level of 2.0, in which it becomes more difficult to idenitfy the clusters, as their distinctness decreases.')
 
-#2.3
+#6.3
 def maxMin(x):
   x = (x-min(x))/(max(x)-min(x))
   return x
@@ -141,5 +141,5 @@ scree(df1_0)
 scree(df2_0)
 print('The existence of the elbow becomes less evident with the increasing of the noise')
 
-#2.4
+#6.4
 print("The scree plot approach is efficient for clusters that are separated and distinctive, as it produces a visible elbow. However, this approach would fail to be successful in cases where the clusters are not distinctive or apart from one another, as their lack of differentiation would lead to the spree chart's elbow to become unnoticeable and smooth. Accordingly, as the noise goes up, the clusters spread out, and the elbows become less distinct. Thus, The overlap between the groups therefore reuslt make it difficult to ifentify how many groups to pick or which points belong to what group.")
