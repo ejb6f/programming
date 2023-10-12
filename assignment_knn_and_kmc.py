@@ -78,6 +78,56 @@ pd.crosstab(y_F, y_hat_F)
 pd.crosstab(y_M, y_hat_M)
 #print("For men, about 80/102 == 0.784 are corret. For women, about 78/98 = 0.796" are correct. The model produces roughly the same accuracy for both sex in its approximation, with a difference in accuracy of 0.012.)
 
+#2.1
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
+import matplotlib.pyplot as plt
+
+df2 = pd.read_csv('USA_cars_datasets.csv')
+df2 = df2.loc[: , ['price', 'year', 'mileage']]
+df2.isna().sum().sum()
+#print("There are no NA values")
+
+#2.2
+A = df2.loc[:, ('year', 'mileage')]
+b = df2['price']
+
+def maxMin(x):
+  x = (x-min(x))/(max(x)-min(x))
+  return x
+
+A = A.apply(maxMin)
+
+#2.3
+X_train, X_test, y_train, y_test = train_test_split(A, b, test_size = .2, random_state = 1)
+
+#2.4
+k_values = [3, 10, 25, 50, 100, 300]
+SSE_list = []
+predicted_values = []
+
+for k in k_values:
+    model = KNeighborsRegressor(n_neighbors=k)
+    model.fit(X_train, y_train)
+    
+    y_hat = model.predict(X_test)
+    
+    SSE = np.sum((y_test - y_hat) ** 2)
+    SSE_list.append(SSE)
+    
+    predicted_values.append(y_hat)
+
+for k, y_pred in zip(k_values, predicted_values):
+    plt.figure()
+    plt.scatter(y_test, y_pred)
+    plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], '--k')
+    plt.xlabel("Actual Price")
+    plt.ylabel("Predicted Value")
+    plt.title("Actual Price vs. Predicted Price")
+    plt.show()
+
 #6.1
 import numpy as np
 import pandas as pd
