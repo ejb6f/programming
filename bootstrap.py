@@ -45,8 +45,8 @@ print(f"99% Confidence Interval: [{confidence_interval[0]:.4f}, {confidence_inte
 print("The confidence interval does in fact include zero.")
 
 print("\n2.4")
-print("This data might over/understate the conclusions I have reached because... ")
-print("Some other data that I would like to have to better understand or criticize the results results include... because...")
+print("This data might over/understate the conclusions I have reached because as a result of data biases. For example, if the patients in the dataset are not a representative sample, the results may not generalizable. Selection bias may also induce the over/under estimation of the conclusions, as the way patients were entered into the dataset could introduce overall bias. With only two variables, lack of detailed patient information may cause limitations in the conclusions made.")
+print("Other data that I would like to have to better understand or criticize the results include information on other health conditions, lifestyle factors, and the stage and type of breast cancer. Such data would allow me to best access the the gathered results.")
 
 
 
@@ -140,4 +140,5 @@ print(f"Rosi vs. Lifestyle: {confidence_interval_rosi_lifestyle}, Significant: {
 
 print("\nThe results indicate that, at the 90% confidence level, the outcomes for the 'Met vs. Rosi' and 'Rosi vs. Lifestyle' comparisons are significantly different.")
 
-print("\n The treatment that appears to be the most effective is rose. This is because...")
+print("\n3.5:")
+print("The treatment that appears to be the most effective is rosi. This is because it has the highest treatment proportion of success, being 0.613734. This is further presented by the charts, as in both the emperical CDF and the kernel density plot, rosi appears to hold a confidence interval at higher values for proportion of success compared to the other two treatments.")
