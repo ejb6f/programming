@@ -11,7 +11,7 @@ print(cross_tab)
 survival_rates = cross_tab['no'] / cross_tab['Total']
 difference_in_survival_rates = survival_rates['control'] - survival_rates['mammogram']
 
-print(f"\nDifference in 25-year survival rates between control and mammogram groups: {difference_in_survival_rates:.4f}")
+print(f"\nDifference in 25-year survival rates between control and mammogram groups is {difference_in_survival_rates:.5f}")
 
 print("\n2.2:")
 import numpy as np
@@ -41,7 +41,7 @@ print("2.3:")
 confidence_interval = np.percentile(bootstrap_survival_control - bootstrap_survival_mammogram, [0.5, 99.5])
 zero_in_interval = confidence_interval[0] <= 0 <= confidence_interval[1]
 
-print(f"99% Confidence Interval: [{confidence_interval[0]:.4f}, {confidence_interval[1]:.4f}]")
+print(f"99% Confidence Interval: [{confidence_interval[0]:.5f}, {confidence_interval[1]:.5f}]")
 print("The confidence interval does in fact include zero.")
 
 print("\n2.4")
@@ -65,6 +65,7 @@ proportion_success = cross_tab2['success'] / cross_tab2.sum(axis=1)
 
 print("Treatment Proportion of Success:")
 print(proportion_success)
+print("\nThe treatment that appears to be the most effective is rosi, as it has the highest treatment proportion of success.")
 
 print("\n3.3:")
 def calculate_proportion_success(data):
@@ -106,7 +107,7 @@ for treatment, samples in bootstrap_proportions(df2):
     flattened_samples = samples.flatten()
     plt.hist(flattened_samples, bins=30, density=True, alpha=0.5, label=treatment, edgecolor='black', linewidth=1)
 
-plt.title('Empirical Kernel Density of Proportions of Success by Treatment Type')
+plt.title('Kernel Density of Proportions of Success by Treatment Type')
 plt.xlabel('Proportion of Success')
 plt.ylabel('Density')
 plt.legend(title = 'Treatment Type')
@@ -134,6 +135,7 @@ significant_lifestyle_met = confidence_interval_lifestyle_met[0] > 0 or confiden
 significant_met_rosi = confidence_interval_met_rosi[0] > 0 or confidence_interval_met_rosi[1] < 0
 significant_rosi_lifestyle = confidence_interval_rosi_lifestyle[0] > 0 or confidence_interval_rosi_lifestyle[1] < 0
 
+print("\n90% Confidence Level Pairwise Treatment Comparisons:")
 print(f"Lifestyle vs. Met: {confidence_interval_lifestyle_met}, Significant: {significant_lifestyle_met}")
 print(f"Met vs. Rosi: {confidence_interval_met_rosi}, Significant: {significant_met_rosi}")
 print(f"Rosi vs. Lifestyle: {confidence_interval_rosi_lifestyle}, Significant: {significant_rosi_lifestyle}")
